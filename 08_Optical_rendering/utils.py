@@ -19,7 +19,7 @@ def nef_to_png(input_path, output_path):
     print(f"Converted {input_path} to {output_path}")
     
 
-def rotate_image(input_path, angle, keep_size=True):
+def rotate_image(input_path,output_path, angle, keep_size=True):
     """
     Rotates an image by the specified angle.
 
@@ -38,6 +38,8 @@ def rotate_image(input_path, angle, keep_size=True):
     numpy.ndarray
         Rotated image.
     """
+    image = cv2.imread(input_path)
+
     # Get the image dimensions
     (h, w) = image.shape[:2]
     center = (w // 2, h // 2)
@@ -59,13 +61,51 @@ def rotate_image(input_path, angle, keep_size=True):
         rotation_matrix[0, 2] += (new_w / 2) - center[0]
         rotation_matrix[1, 2] += (new_h / 2) - center[1]
         rotated_image = cv2.warpAffine(image, rotation_matrix, (new_w, new_h))
+    cv2.imwrite(output_path, rotated_image)
 
     return rotated_image
 
-def fft(image):
-    image_tensor = torch.from_numpy(np.float32(image)).to('cuda')
+def flip_image(input_path, output_path, flip_code):
+    """
+    Flips an image horizontally, vertically, or both.
+
+    Parameters:
+    ----------
+    input_path : str
+        Path to the input image.
+    output_path : str
+        Path to save the flipped image.
+    flip_code : int
+        Code specifying how to flip the image:
+        - 0: Flip vertically
+        - 1: Flip horizontally
+        - -1: Flip both horizontally and vertically
+
+    Returns:
+    -------
+    numpy.ndarray
+        Flipped image.
+    """
+    # Read the input image
+    image = cv2.imread(input_path)
+    
+    if image is None:
+        raise FileNotFoundError(f"Image not found at {input_path}")
+
+    # Flip the image
+    flipped_image = cv2.flip(image, flip_code)
+
+    # Save the flipped image
+    cv2.imwrite(output_path, flipped_image)
+
+    return flipped_image
+
+
+def fft(image, device):
+    image_tensor = torch.from_numpy(np.float32(image)).to(device)
     dft_shift = torch.fft.fftshift(torch.fft.fft2(image_tensor))
     return dft_shift
+
 
 def ifft(fshift):
     f_ishift = torch.fft.ifftshift(fshift)
