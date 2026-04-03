@@ -158,8 +158,8 @@ def main():
         linear_conv=True, num_iters=num_iters)
 
     # --- Define global phase offsets ---
-    delta_1 = 1.7  # radians
-    delta_2 = 1.0  # radians
+    delta_1 = 1.0  # radians
+    delta_2 = 1.7  # radians
 
     theta_np = theta.numpy()
     theta_1 = (theta_np + delta_1) % (2 * np.pi)
