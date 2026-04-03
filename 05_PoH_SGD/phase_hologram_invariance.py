@@ -159,7 +159,7 @@ def main():
 
     # --- Define global phase offsets ---
     delta_1 = 1.7  # radians
-    delta_2 = 4.2  # radians
+    delta_2 = 1.0  # radians
 
     theta_np = theta.numpy()
     theta_1 = (theta_np + delta_1) % (2 * np.pi)
@@ -224,10 +224,6 @@ def main():
         ax3.set_title('NR (BL-ASM)', fontsize=11)
         ax3.set_xticks([])
         ax3.set_yticks([])
-
-    # Add colour-bar for phase images
-    fig.colorbar(im, ax=axes[:, 0].tolist(), shrink=0.6,
-                 label='Phase (rad)', pad=0.02)
 
     fig.suptitle('Global Phase Shift Invariance of Phase-Only Hologram',
                  fontsize=14, fontweight='bold', y=0.98)
