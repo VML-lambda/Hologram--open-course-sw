@@ -206,12 +206,10 @@ def main():
 
         # Column 2: 1D phase profile along the scan-line
         ax2 = axes[row_idx, 1]
-        line_phase = ph[scan_row, :]
-        x_pixels = np.arange(len(line_phase))
-        # Show a subset for visibility
-        x_start, x_end = len(line_phase) // 4, 3 * len(line_phase) // 4
-        ax2.plot(x_pixels[x_start:x_end], line_phase[x_start:x_end],
-                 linewidth=0.5, color='navy')
+        line_phase = ph[scan_row, :5]
+        x_pixels = np.arange(5)
+        ax2.plot(x_pixels, line_phase, linewidth=1.5, color='navy',
+                 marker='o', markersize=6)
         ax2.set_ylim(-0.2, 2 * np.pi + 0.2)
         ax2.set_ylabel('Phase (rad)', fontsize=10)
         ax2.set_title(f'1D phase profile (row={scan_row})', fontsize=10)
